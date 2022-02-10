@@ -48,7 +48,7 @@ const block = function (el, config) {
 
     const previewMode = config._mode === 'preview'
 
-    if (previewMode || !!config.overridePreview) {
+    if (previewMode && !config.overridePreview) {
       const frag = parser.parseFromString(logo, 'text/html').body.childNodes[0]
       child.append(frag)
       child.classList.remove(css.loading)
