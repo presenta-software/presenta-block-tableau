@@ -1,24 +1,60 @@
 import css from './style.css'
-import {
-  TableauViz
-} from './tableau.embedding.3.latest.beta.js'
+import tableau from 'tableau-api'
+// import {
+//   TableauViz, TableauEventType
+// } from './tableau.embedding.3.latest.beta.js'
 
 // https://embedding.tableauusercontent.com/preview/tableau.embedding.3.latest.beta.js
 
-const doTableau = (el, config) => {
-  const viz = new TableauViz()
-  viz.src = config.url
-  viz.toolbar = config.toolbar || 'hidden'
-  // viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection)
+// const doTableauV3 = (el, config) => {
+//   console.log(TableauEventType)
+//   const viz = new TableauViz()
+//   viz.src = config.url
+//   viz.toolbar = config.toolbar || 'hidden'
+//   viz.hideTabs = config.hideTabs || true
+//   viz.device = config.device
+//   viz.width = '100%'
+//   viz.height = '100%'
 
-  el.appendChild(viz)
-}
+//   // viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection)
+//   viz.addEventListener(TableauEventType.FirstInteractive, function (e) {
+//     console.log('onFirstInteractive')
+//   })
+
+//   el.appendChild(viz)
+// }
+
+// const doTableauV2 = (el, config) => {
+//   // const vizUrl = 'https://public.tableau.com/views/VacationHome/VacationHome?:embed=y&:display_count=yes'
+
+// }
 
 const block = function (el, config) {
-  const child = document.createElement('div')
-  child.classList.add(css.tableau)
+  const that = this
+  return new Promise((resolve, reject) => {
+    const child = document.createElement('div')
+    child.classList.add(css.tableau, css.loading)
+    el.append(child)
 
-  if (config.url) doTableau(el, config)
+    if (config.url) {
+      const options = {
+        hideTabs: config.hideTabs || true,
+        toolbar: config.toolbar || 'hidden',
+        width: '100%',
+        height: '100%',
+        onFirstInteractive: () => {
+          child.classList.remove(css.loading)
+          resolve(that)
+        }
+      }
+
+      const viz = new window.tableau.Viz(child, config.url, options)
+    } else {
+      resolve(that)
+    }
+  })
+
+  // if (config.url) doTableauV3(el, config)
 }
 
 export default block

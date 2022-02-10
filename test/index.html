@@ -16,7 +16,9 @@
             url: 'https://public.tableau.com/views/WorldIndicators/GDPpercapita',
             
         }
-        new PresentaBlockTableau(document.querySelector('#wrapper'), block)
+        new PresentaBlockTableau(document.querySelector('#wrapper'), block).then(data => {
+            console.log('loaded', data)
+        })
     </script>
 </body>
 </html>
