@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PresentaBlockTableau</title>
+    <script src="../dist/presenta-block-tableau.min.js"></script>
+</head>
+<body>
+
+    <div id="wrapper"></div>
+
+    <script>
+        var block = {
+            type: 'tableau',
+            url: 'https://public.tableau.com/views/WorldIndicators/GDPpercapita',
+            
+        }
+        new PresentaBlockTableau(document.querySelector('#wrapper'), block)
+    </script>
+</body>
+</html>
