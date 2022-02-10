@@ -52,7 +52,7 @@ const block = function (el, config) {
         height: '100%',
         onFirstInteractive: () => {
           child.classList.remove(css.loading)
-          resolve(that)
+          setTimeout(() => resolve(that), 500)
         }
       }
 
