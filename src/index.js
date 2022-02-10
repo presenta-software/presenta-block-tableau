@@ -30,7 +30,14 @@ import tableau from 'tableau-api'
 // }
 
 const block = function (el, config) {
+  let viz = null
+
   const that = this
+
+  that.destroy = () => {
+    if (viz) viz.dispose()
+  }
+
   return new Promise((resolve, reject) => {
     const child = document.createElement('div')
     child.classList.add(css.tableau, css.loading)
@@ -38,8 +45,9 @@ const block = function (el, config) {
 
     if (config.url) {
       const options = {
-        hideTabs: config.hideTabs || true,
-        toolbar: config.toolbar || 'hidden',
+        hideTabs: config.hideTabs || false,
+        hideToolbar: config.hideToolbar || false,
+        device: config.device,
         width: '100%',
         height: '100%',
         onFirstInteractive: () => {
@@ -48,7 +56,7 @@ const block = function (el, config) {
         }
       }
 
-      const viz = new window.tableau.Viz(child, config.url, options)
+      viz = new window.tableau.Viz(child, config.url, options)
     } else {
       resolve(that)
     }
